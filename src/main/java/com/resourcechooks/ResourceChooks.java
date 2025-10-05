@@ -38,5 +38,6 @@ public class ResourceChooks implements ModInitializer {
 		LOGGER.info("Hello Fabric world!");
 
                 Items.initialize();
+                Loot.initialize();
 	}
 }
