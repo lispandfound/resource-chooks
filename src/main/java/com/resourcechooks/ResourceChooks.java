@@ -1,7 +1,6 @@
 package com.resourcechooks;
 
 import net.fabricmc.api.ModInitializer;
-
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricDefaultAttributeRegistry;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
@@ -37,5 +36,7 @@ public class ResourceChooks implements ModInitializer {
 		// Proceed with mild caution.
         FabricDefaultAttributeRegistry.register(CHOOK, Chook.createChickenAttributes());
 		LOGGER.info("Hello Fabric world!");
+
+                Items.initialize();
 	}
 }
