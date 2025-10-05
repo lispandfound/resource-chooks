@@ -1,0 +1,41 @@
+{
+	"schemaVersion": 1,
+	"id": "resource-chooks",
+	"version": "${version}",
+	"name": "Resource Chooks",
+	"description": "This is an example description! Tell everyone what your mod is about!",
+	"authors": [
+		"Me!"
+	],
+	"contact": {
+		"homepage": "https://fabricmc.net/",
+		"sources": "https://github.com/FabricMC/fabric-example-mod"
+	},
+	"license": "CC0-1.0",
+	"icon": "assets/resource-chooks/icon.png",
+	"environment": "*",
+	"entrypoints": {
+		"main": [
+			"com.resourcechooks.ResourceChooks"
+		],
+		"client": [
+			"com.resourcechooks.ResourceChooksClient"
+		]
+	},
+	"mixins": [
+		"resource-chooks.mixins.json",
+		{
+			"config": "resource-chooks.client.mixins.json",
+			"environment": "client"
+		}
+	],
+	"depends": {
+		"fabricloader": ">=0.17.2",
+		"minecraft": "~1.21.9",
+		"java": ">=21",
+		"fabric-api": "*"
+	},
+	"suggests": {
+		"another-mod": "*"
+	}
+}
