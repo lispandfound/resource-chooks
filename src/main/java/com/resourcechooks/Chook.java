@@ -13,6 +13,7 @@ import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.storage.ReadView;
 import net.minecraft.storage.WriteView;
+import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import net.minecraft.world.World;
 
@@ -36,17 +37,21 @@ public class Chook extends ChickenEntity {
 
         World entityWorld = this.getEntityWorld();
         if (!entityWorld.isClient() && this.isAlive() && !this.isBaby() && --this.eggLayTime <= 0) {
-            // According to MC Wiki the pitch is between 0.8-1.2.
-            this.playSound(SoundEvents.ENTITY_CHICKEN_EGG, 1.0F, this.random.nextFloat() * 0.4f + 0.8f);
-            // TODO: how the heck do I drop an item.
-            ItemStack stack = new ItemStack(this.layItem, 1);
-            ItemEntity entity = new ItemEntity(entityWorld, this.lastX, this.lastY, this.lastZ, stack);
-            double offsetX = (this.random.nextDouble() - 0.5) * 0.3;
-            double offsetZ = (this.random.nextDouble() - 0.5) * 0.3;
-            entity.setVelocity(offsetX, 0.2, offsetZ);
-            entityWorld.spawnEntity(entity);
-            this.eggLayTime = this.random.nextInt(6000) + 6000;
+            this.lay(entityWorld);
         }
+    }
+
+    public void lay(World world) {
+        // According to MC Wiki the pitch is between 0.8-1.2.
+        this.playSound(SoundEvents.ENTITY_CHICKEN_EGG, 1.0F, this.random.nextFloat() * 0.4f + 0.8f);
+        // TODO: how the heck do I drop an item.
+        ItemStack stack = new ItemStack(this.layItem, 1);
+        ItemEntity entity = new ItemEntity(world, this.lastX, this.lastY, this.lastZ, stack);
+        double offsetX = (this.random.nextDouble() - 0.5) * 0.3;
+        double offsetZ = (this.random.nextDouble() - 0.5) * 0.3;
+        entity.setVelocity(offsetX, 0.2, offsetZ);
+        world.spawnEntity(entity);
+        this.eggLayTime = this.random.nextInt(6000) + 6000;
     }
 
     @Override
