@@ -27,8 +27,8 @@ public class ResourceChooks implements ModInitializer {
         return Registry.register(Registries.ENTITY_TYPE, registryKey, type.build(registryKey));
     }
 
-
     public static final EntityType<Chook> CHOOK = registerEntity("resource-chooks", "chook", EntityType.Builder.create(Chook::new, SpawnGroup.CREATURE).dimensions(0.4f, 0.7f));
+
     @Override
 	public void onInitialize() {
 		// This code runs as soon as Minecraft is in a mod-load-ready state.
@@ -39,5 +39,6 @@ public class ResourceChooks implements ModInitializer {
 
                 Items.initialize();
                 Loot.initialize();
+                Spawn.initialize();
 	}
 }
