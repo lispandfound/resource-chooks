@@ -1,8 +1,11 @@
 package com.resourcechooks;
 
 import net.minecraft.component.type.NbtComponent;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityData;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.ItemEntity;
+import net.minecraft.entity.SpawnReason;
 import net.minecraft.entity.ai.goal.SwimGoal;
 import net.minecraft.entity.passive.ChickenEntity;
 import net.minecraft.item.Item;
@@ -10,12 +13,17 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.RegistryWrapper;
+import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.storage.ReadView;
 import net.minecraft.storage.WriteView;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
+import net.minecraft.world.LocalDifficulty;
+import net.minecraft.world.ServerWorldAccess;
 import net.minecraft.world.World;
+import net.minecraft.world.biome.Biome;
+import net.minecraft.world.biome.BiomeKeys;
 
 public class Chook extends ChickenEntity {
 
@@ -23,7 +31,30 @@ public class Chook extends ChickenEntity {
 
     public Chook(EntityType<? extends ChickenEntity> entityType, World world) {
         super(entityType, world);
-        this.layItem = Items.DIAMOND;
+        this.layItem = Items.AIR;
+    }
+
+    @Override
+    public EntityData initialize(ServerWorldAccess worldAccess, LocalDifficulty localDifficulty, SpawnReason spawnReason, EntityData entityData) {
+        super.initialize(worldAccess, localDifficulty, spawnReason, entityData);
+
+        // We only care about natural spawns/summons
+        if (!(SpawnReason.NATURAL.equals(spawnReason) || SpawnReason.MOB_SUMMONED.equals(spawnReason))) {
+            return entityData;
+        }
+
+        RegistryEntry<Biome> biome = worldAccess.getBiome(this.getBlockPos());
+        if (biome.getKey().isEmpty()) {
+            return entityData;
+        }
+
+        if (BiomeKeys.PLAINS.equals(biome.getKey().get())) {
+            this.layItem = Items.FERMENTED_SPIDER_EYE;
+        } else {
+            this.layItem = Items.DIAMOND;
+        }
+
+        return entityData;
     }
 
     @Override
