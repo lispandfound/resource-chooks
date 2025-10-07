@@ -41,6 +41,10 @@ public class Chook extends ChickenEntity {
         }
     }
 
+    public int getRadioactivity() {
+        return 1;
+    }
+
     public void lay(World world) {
         // According to MC Wiki the pitch is between 0.8-1.2.
         this.playSound(SoundEvents.ENTITY_CHICKEN_EGG, 1.0F, this.random.nextFloat() * 0.4f + 0.8f);
