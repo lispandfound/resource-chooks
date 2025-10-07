@@ -1,6 +1,7 @@
 package com.resourcechooks;
 
 import net.fabricmc.fabric.api.event.player.UseEntityCallback;
+import net.minecraft.entity.passive.ChickenEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ActionResult;
@@ -14,12 +15,12 @@ public class Laxative extends Item {
         UseEntityCallback.EVENT.register((player, world, hand, entity, hitResult) -> {
             ItemStack stack = player.getStackInHand(hand);
 
-            if (!(entity instanceof Chook) || !stack.isOf(Items.LAXATIVE_ITEM)) {
+            if (!(entity instanceof ChickenEntity) || !stack.isOf(Items.LAXATIVE_ITEM)) {
                 return ActionResult.PASS;
             }
 
-            Chook chook = (Chook)entity;
-            chook.lay(player.getEntityWorld());
+            ChookEntity chicken = (ChookEntity)entity;
+            chicken.layItem(player.getEntityWorld());
             stack.decrement(1);
 
             return ActionResult.SUCCESS;
