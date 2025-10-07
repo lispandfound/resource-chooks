@@ -8,10 +8,12 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import com.resourcechooks.Chook;
+import com.resourcechooks.ChookEntity;
 import com.resourcechooks.ResourceChooks;
 
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
+import net.minecraft.entity.passive.ChickenEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.registry.Registries;
 import net.minecraft.util.math.Box;
@@ -26,8 +28,8 @@ public class PlayerMixin {
         Vec3d playerPosition = playerEntity.getEntityPos();
         World world = playerEntity.getEntityWorld();
 
-        List<Chook> chooks = world.getEntitiesByClass(
-            Chook.class,
+        List<ChickenEntity> chickens = world.getEntitiesByClass(
+            ChickenEntity.class,
             new Box(
                 playerPosition.subtract(new Vec3d(10, 10, 10)),
                 playerPosition.add(new Vec3d(10, 10, 10))
@@ -37,15 +39,15 @@ public class PlayerMixin {
             }
         );
 
-        int radioactivity = chooks.stream().reduce(
+        int radioactivity = chickens.stream().reduce(
             0,
             (total, entity) -> {
-                return total + entity.getRadioactivity();
+                return total + ((ChookEntity)entity).getRadioactivity();
             },
             Integer::sum
         );
 
-        if (chooks.size() == 0) {
+        if (chickens.size() == 0) {
             return;
         }
 
